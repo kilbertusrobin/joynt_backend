@@ -1,0 +1,19 @@
+meta {
+  name: Get Profile By User ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/admin/profiles/user/:userId
+  body: none
+  auth: bearer
+}
+
+params:path {
+  userId: YOUR_USER_ID_HERE
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Create User
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/admin/users
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "email": "jane.doe@example.com",
+    "password": "password456",
+    "role": "user",
+    "profile": {
+      "firstName": "Jane",
+      "lastName": "Doe",
+      "pseudo": "janedoe"
+    }
+  }
+}

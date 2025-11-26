@@ -1,0 +1,15 @@
+meta {
+  name: Get All Profiles
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/admin/profiles
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
