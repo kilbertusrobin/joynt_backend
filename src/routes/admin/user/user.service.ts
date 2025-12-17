@@ -153,6 +153,19 @@ export class UserService {
     return user;
   }
 
+  async validateLocalUser(email: string, password: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (!user || !user.password) {
+      return null;
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+    return isPasswordValid ? user : null;
+  }
+
   private generateToken(user: User): string {
     const payload = { sub: user.id, email: user.email };
     return this.jwtService.sign(payload);

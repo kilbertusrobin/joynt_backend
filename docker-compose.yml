@@ -41,13 +41,10 @@ services:
     restart: always
     ports:
       - '3000:3000'
+    env_file:
+      - .env
     environment:
       NODE_ENV: production
-      DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
-      DATABASE_USER: postgres
-      DATABASE_PASSWORD: postgres
-      DATABASE_NAME: joynt_db
     networks:
       - joynt_network
     depends_on:

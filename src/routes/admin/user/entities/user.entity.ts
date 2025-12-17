@@ -7,10 +7,12 @@ import {
   BeforeInsert,
   BeforeUpdate,
   OneToOne,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UserRole } from '../enums/user-role.enum';
 import { Profile } from '../../profile/entities/profile.entity';
+import { SsoProvider } from './sso-provider.entity';
 
 @Entity('users')
 export class User {
@@ -20,7 +22,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @Column({
@@ -39,6 +41,12 @@ export class User {
   })
   profile: Profile;
 
+  @OneToMany(() => SsoProvider, (provider) => provider.user, {
+    cascade: true,
+    eager: false,
+  })
+  ssoProviders: SsoProvider[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
@@ -54,6 +62,9 @@ export class User {
   }
 
   async comparePassword(attempt: string): Promise<boolean> {
+    if (!this.password) {
+      return false;
+    }
     return await bcrypt.compare(attempt, this.password);
   }
 }
